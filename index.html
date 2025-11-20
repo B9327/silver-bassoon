@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💰 Budget Meal Planner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #c9d6ff, #e2e2e2);
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            background: #4b8bff;
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #ffd700;
+        }
+
+        section {
+            background: white;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        section:hover {
+            transform: translateY(-3px);
+        }
+
+        h2 {
+            color: #4b8bff;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(50% - 10px);
+            padding: 10px;
+            margin: 5px 5px 15px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: #4b8bff;
+            box-shadow: 0 0 5px #4b8bff;
+        }
+
+        button {
+            background: #4b8bff;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #3a6ede;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        ul li {
+            padding: 10px;
+            background: #f4f7ff;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        ul li span.delete {
+            color: red;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        p#totalCost {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #4b8bff;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #4b8bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f0f4ff;
+        }
+
+        tr:hover {
+            background: #d0e1ff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Navigation Menu -->
+        <nav>
+            <a href="#addMealSection">Add Meal</a>
+            <a href="#mealListSection">Meal List</a>
+            <a href="#totalCostSection">Total Cost</a>
+            <a href="#weeklyPlanSection">Weekly Plan</a>
+            <a href="#dietTableSection">Balanced Diet</a>
+        </nav>
+
+        <!-- Add Meal Section -->
+        <section id="addMealSection">
+            <h2>➕ Add New Meal</h2>
+            <input type="text" id="mealName" placeholder="rice">
+            <input type="number" id="100" placeholder="Estimated Cost (KES)">
+            <button id="addMeal">Add Meal</button>
+        </section>
+
+        <!-- Meal List & Filter Section -->
+        <section id="mealListSection">
+            <h2>🛒 Meal List & Filter</h2>
+            <input type="number" id="costFilter" placeholder="Max cost (KES)">
+            <button id="applyFilter">Apply Filter</button>
+            <ul id="mealList"></ul>
+        </section>
+
+        <!-- Total Cost Section -->
+        <section id="totalCostSection">
+            <h2>📊 Total Estimated Cost</h2>
+            <p id="totalCost">KES 0</p>
+        </section>
+
+        <!-- Weekly Plan Section -->
+        <section id="weeklyPlanSection">
+            <h2>📅 Weekly Plan</h2>
+            <button id="generatePlan">Generate Weekly Plan (7 Days)</button>
+            <div id="weeklyPlan"></div>
+        </section>
+
+        <!-- Balanced Diet Table Section -->
+        <section id="dietTableSection">
+            <h2>🥗 Balanced Diet Table</h2>
+            <p>Use this as a guide to plan healthy meals.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Group</th>
+                        <th>Examples</th>
+                        <th>Recommended Daily Portion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Carbohydrates</td>
+                        <td>Rice, Ugali, Chapati, Potatoes</td>
+                        <td>3–5 servings</td>
+                    </tr>
+                    <tr>
+                        <td>Proteins</td>
+                        <td>Beans, Eggs, Lentils, Fish, Chicken</td>
+                        <td>2–3 servings</td>
+                    </tr>
+                    <tr>
+                        <td>Vegetables</td>
+                        <td>Kales (Sukuma), Spinach, Cabbage, Carrots</td>
+                        <td>3–4 servings</td>
+                    </tr>
+                    <tr>
+                        <td>Fruits</td>
+                        <td>Bananas, Apples, Oranges, Mangoes</td>
+                        <td>2–3 servings</td>
+                    </tr>
+                    <tr>
+                        <td>Dairy</td>
+                        <td>Milk, Yogurt, Cheese</td>
+                        <td>1–2 servings</td>
+                    </tr>
+                    <tr>
+                        <td>Fats & Oils</td>
+                        <td>Cooking oil, Avocado, Nuts</td>
+                        <td>Use in moderation</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
